@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supermarket Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        input {
+            margin-bottom: 5px;
+            padding: 8px;
+        }
+        
+        button {
+            padding: 8px;
+            cursor: pointer;
+        }
+        
+        #product-section, #worker-section {
+            margin-top: 30px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Supermarket Management</h1>
+    
+    <!-- Product Details Section -->
+    <div id="product-section">
+        <h2>Product Details</h2>
+        <form id="product-form">
+            <input type="text" id="product-name" placeholder="Product Name" required>
+            <input type="number" id="product-price" placeholder="Price" required>
+            <button type="button" id="add-product">Add Product</button>
+        </form>
+        
+        <button type="button" id="show-products">Show Products</button>
+        <div id="product-list" class="hidden"></div>
+    </div>
+    
+    <!-- Worker Details Section -->
+    <div id="worker-section">
+        <h2>Worker Details</h2>
+        <form id="worker-form">
+            <input type="text" id="worker-name" placeholder="Worker Name" required>
+            <input type="text" id="worker-role" placeholder="Role" required>
+            <button type="button" id="add-worker">Add Worker</button>
+        </form>
+        <button type="button" id="show-workers">Show Workers</button>
+        <div id="worker-list" class="hidden"></div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const productForm = document.getElementById("product-form");
+            const productNameInput = document.getElementById("product-name");
+            const productPriceInput = document.getElementById("product-price");
+            const productList = document.getElementById("product-list");
+            const showProductsButton = document.getElementById("show-products");
+        
+            const workerForm = document.getElementById("worker-form");
+            const workerNameInput = document.getElementById("worker-name");
+            const workerRoleInput = document.getElementById("worker-role");
+            const workerList = document.getElementById("worker-list");
+            const showWorkersButton = document.getElementById("show-workers");
+        
+            // Product details array
+            const products = [];
+        
+            // Worker details array
+            const workers = [];
+        
+            // Add product function
+            function addProduct() {
+                const productName = productNameInput.value;
+                const productPrice = parseFloat(productPriceInput.value);
+        
+                if (productName && productPrice) {
+                    const product = { name: productName, price: productPrice };
+                    products.push(product);
+                    clearProductForm();
+                }
+            }
+        
+            // Display products
+            function displayProducts() {
+                productList.innerHTML = "";
+                products.forEach((product, index) => {
+                    productList.innerHTML += `
+                        <div>${product.name} - $${product.price}</div>
+                    `;
+                });
+            }
+        
+            // Clear product form
+            function clearProductForm() {
+                productNameInput.value = "";
+                productPriceInput.value = "";
+            }
+        
+            // Add worker function
+            function addWorker() {
+                const workerName = workerNameInput.value;
+                const workerRole = workerRoleInput.value;
+        
+                if (workerName && workerRole) {
+                    const worker = { name: workerName, role: workerRole };
+                    workers.push(worker);
+                    clearWorkerForm();
+                }
+            }
+        
+            // Display workers
+            function displayWorkers() {
+                workerList.innerHTML = "";
+                workers.forEach((worker, index) => {
+                    workerList.innerHTML += `
+                        <div>${worker.name} - ${worker.role}</div>
+                    `;
+                });
+            }
+        
+            // Clear worker form
+            function clearWorkerForm() {
+                workerNameInput.value = "";
+                workerRoleInput.value = "";
+            }
+        
+            // Event listeners
+            document.getElementById("add-product").addEventListener("click", function () {
+                addProduct();
+                displayProducts();
+            });
+            
+            document.getElementById("add-worker").addEventListener("click", function () {
+                addWorker();
+                displayWorkers();
+            });
+            
+            showProductsButton.addEventListener("click", function () {
+                productList.classList.toggle("hidden");
+                showProductsButton.textContent = productList.classList.contains("hidden") ? "Show Products" : "Hide Products";
+            });
+            
+            showWorkersButton.addEventListener("click", function () {
+                workerList.classList.toggle("hidden");
+                showWorkersButton.textContent = workerList.classList.contains("hidden") ? "Show Workers" : "Hide Workers";
+            });
+        });
+    </script>
+</body>
+</html>
